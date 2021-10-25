@@ -1,14 +1,28 @@
 {
-  "name": "react-asm01",
+  "name": "lab_04_1",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^11.2.7",
-    "@testing-library/user-event": "^12.8.3",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
+    "bootstrap": "4.0.0",
+    "bootstrap-social": "5.1.1",
+    "cross-fetch": "2.1.0",
+    "css-loader": "^1.0.0",
+    "dateformat": "^4.5.1",
+    "font-awesome": "4.7.0",
+    "prop-types": "15.6.0",
+    "react": "^16.3.2",
+    "react-animation-components": "3.0.0",
+    "react-dom": "^16.3.2",
+    "react-popper": "0.9.2",
+    "react-redux": "5.0.7",
+    "react-redux-form": "1.16.8",
+    "react-router-dom": "4.2.2",
+    "react-scripts": "1.1.4",
+    "react-transition-group": "2.3.0",
+    "reactstrap": "5.0.0",
+    "redux": "3.7.2",
+    "redux-logger": "3.0.6",
+    "redux-thunk": "2.2.0",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
@@ -23,29 +37,5 @@
       "react-app/jest"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
-  "main": "index.js",
-  "devDependencies": {},
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vawnvuxdev/FUNIX_ReactJS_FX12217.git"
-  },
-  "author": "VawnVux-FX12217",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/vawnvuxdev/FUNIX_ReactJS_FX12217/issues"
-  },
-  "homepage": "https://github.com/vawnvuxdev/FUNIX_ReactJS_FX12217#readme"
+  "browserslist": []
 }
