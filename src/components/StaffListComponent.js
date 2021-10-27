@@ -1,5 +1,14 @@
 import React, { Component } from "react";
-import { Card, CardText, CardBody, CardTitle } from "reactstrap";
+import {
+  Card,
+  CardText,
+  CardBody,
+  CardTitle,
+  Row,
+  Col,
+  Button,
+  ButtonGroup,
+} from "reactstrap";
 import dateFormat from "dateformat";
 
 class StaffList extends Component {
@@ -7,6 +16,7 @@ class StaffList extends Component {
     super(props);
     this.state = {
       selectedStaff: null,
+      lgCol: 4,
     };
   }
 
@@ -14,11 +24,31 @@ class StaffList extends Component {
     this.setState({ selectedStaff: staff });
   }
 
-  renderStaff(staff) {
+  renderStaffList(lgCol) {
+    return (
+      <Row>
+        {this.props.staffs.map((staff) => {
+          return (<Col md="6" lg={lgCol}>
+          <Card
+            className="mt-1 p-1"
+            outline
+            color="info"
+            key={staff.id}
+            onClick={() => this.onStaffSelect(staff)}
+          >
+            {staff.name}
+          </Card>
+        </Col>);
+        })}
+      </Row>
+    );
+  }
+
+  renderSelectedStaff(staff) {
     if (staff != null) {
       return (
-        <div className="col-12 col-md-5 m-1 p-1">
-          <Card className="bg-secondary text-white">
+        <Col>
+          <Card outline color="success">
             <CardBody>
               <CardTitle className="text-primary">
                 Họ và tên: {staff.name}
@@ -34,31 +64,37 @@ class StaffList extends Component {
               </CardText>
             </CardBody>
           </Card>
-        </div>
+        </Col>
       );
     } else {
       return <div></div>;
     }
   }
-  render() {
-    const staffList = this.props.staffs.map((staff) => {
-      return (
-        <Card
-          key={staff.id}
-          className="col-12 col-md-5 m-1 col-lg-3 m-lg-2"
-          onClick={() => this.onStaffSelect(staff)}
-        >
-          {staff.name}
-        </Card>
-      );
-    });
 
+  render() {
     return (
       <div className="container">
-        <h2 className="text-center m-1">Danh sách nhân viên</h2>
-        <div className="row">{staffList}</div>
+        <div className="text-center">
+          <h2>Danh sách nhân viên</h2>
+          <ButtonGroup>
+            <Button size="sm" onClick={() => {this.setState({lgCol: 6})}}>
+              2
+            </Button>
+            <Button size="sm" onClick={() => {this.setState({lgCol: 4})}}>
+              3
+            </Button>
+            <Button size="sm" onClick={() => {this.setState({lgCol: 3})}}>
+              4
+            </Button>
+            <Button size="sm" onClick={() => {this.setState({lgCol: 2})}}>
+              6
+            </Button>
+          </ButtonGroup>
+          <small> Columns for Desktop</small>
+        </div>
+        {this.renderStaffList(this.state.lgCol)}
         <h2 className="text-center m-1">Bấm vào tên để xem thông tin</h2>
-        <div className="row">{this.renderStaff(this.state.selectedStaff)}</div>
+        <Row>{this.renderSelectedStaff(this.state.selectedStaff)}</Row>
       </div>
     );
   }
