@@ -1,27 +1,34 @@
-import logo from "./logo.svg";
 import "./App.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import React from "react"
+import React, { Component } from "react";
+import { Navbar, NavbarBrand } from "reactstrap";
+// import Menu from "./components/MenuComponsent";
+import StaffList from "./components/StaffListComponent";
+import { DISHES } from "./shared/dishes";
+import { STAFFS } from "./shared/staffs";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Assignment 01
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      dishes: DISHES,
+      staffs: STAFFS,
+    };
+  }
+
+  render() {
+    return (
+      <div>
+        <Navbar dark color="primary">
+          <div className="container-fluid">
+            <NavbarBrand href="/">ReactJS - Ứng dụng quản lý nhân sự v1.0</NavbarBrand>
+          </div>
+        </Navbar>
+        {/* <Menu dishes={this.state.dishes}/> */}
+        <StaffList staffs={this.state.staffs} />
+      </div>
+    );
+  }
 }
 
 export default App;
