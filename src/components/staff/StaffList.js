@@ -142,13 +142,9 @@ class StaffList extends Component {
       image: "/assets/images/alberto.png",
     };
 
-
-
     this.props.staffs.push(newStaff);
 
     event.preventDefault();
-  
-    alert(newStaff)
 
     this.toggleModal();
   
