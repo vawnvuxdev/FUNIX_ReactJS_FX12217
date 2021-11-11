@@ -6,18 +6,21 @@ import StaffList from "./staff/StaffList";
 import StaffDetail from "./staff/StaffDetail";
 import DepartmentList from "./department/DepartmentList";
 import SalaryList from "./salary/SalaryList";
-import { STAFFS, DEPARTMENTS } from "../shared/staffs";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, withRouter } from "react-router-dom";
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => {
+  return {
+    staffs: state.staffs,
+    departments: state.departments
+  }
+}
 
 class Main extends Component {
   constructor(props) {
-    super(props);
-
-    this.state = {
-      staffs: STAFFS,
-      departments: DEPARTMENTS,
-    };
+    super(props)
   }
+
 
   render() {
     const HomePage = () => {
@@ -32,7 +35,7 @@ class Main extends Component {
       return (
         <StaffDetail
           staff={
-            this.state.staffs.filter(
+            this.props.staffs.filter(
               (staff) => staff.id === parseInt(match.params.staffId, 10)
             )[0]
           }
@@ -48,20 +51,20 @@ class Main extends Component {
           <Route
             exact
             path="/staffs"
-            component={() => <StaffList staffs={this.state.staffs} />}
+            component={() => <StaffList staffs={this.props.staffs} departments={this.props.departments} />}
           />
           <Route path="/staffs/:staffId" component={StaffDetailById} />
           <Route
             exact
             path="/departments"
             component={() => (
-              <DepartmentList departments={this.state.departments} />
+              <DepartmentList departments={this.props.departments} />
             )}
           />
           <Route
             exact
             path="/salaries"
-            component={() => <SalaryList staffs={this.state.staffs}/>}
+            component={() => <SalaryList staffs={this.props.staffs} />}
           />
           <Redirect to="/" />
         </Switch>
@@ -71,4 +74,4 @@ class Main extends Component {
   }
 }
 
-export default Main;
+export default withRouter(connect(mapStateToProps)(Main));
