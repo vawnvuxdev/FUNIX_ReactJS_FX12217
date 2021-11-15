@@ -21,7 +21,6 @@ class Main extends Component {
     super(props)
   }
 
-
   render() {
     const HomePage = () => {
       return (
@@ -43,29 +42,21 @@ class Main extends Component {
       );
     };
 
+    const Staffs = () => {
+      return (
+        <StaffList staffs={this.props.staffs} departments={this.props.departments} />
+      )
+    }
+
     return (
       <div>
         <Header />
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route
-            exact
-            path="/staffs"
-            component={() => <StaffList staffs={this.props.staffs} departments={this.props.departments} />}
-          />
+          <Route exact path="/staffs" component={Staffs} />
           <Route path="/staffs/:staffId" component={StaffDetailById} />
-          <Route
-            exact
-            path="/departments"
-            component={() => (
-              <DepartmentList departments={this.props.departments} />
-            )}
-          />
-          <Route
-            exact
-            path="/salaries"
-            component={() => <SalaryList staffs={this.props.staffs} />}
-          />
+          <Route exact path="/departments" component={() => (<DepartmentList departments={this.props.departments} />)} />
+          <Route exact path="/salaries" component={() => <SalaryList staffs={this.props.staffs} />} />
           <Redirect to="/" />
         </Switch>
         <Footer />
