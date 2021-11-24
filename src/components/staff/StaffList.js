@@ -20,7 +20,7 @@ import {
 import { Control, LocalForm, Errors } from "react-redux-form";
 import { Link } from "react-router-dom";
 
-function RenderStaff({ staff }) {
+export const RenderStaff = ({ staff }) => {
   return (
     <Card className="mt-2 p-1" outline color="info">
       <Link to={`/staffs/${staff.id}`}>
@@ -128,7 +128,7 @@ const StaffList = (props) => {
         </Col>
       </Row>
 
-      <Row className="mb-3">{staffList}</Row>
+      <div className="row mb-3">{staffList}</div>
 
       <Modal
         toggle={toggleModal}

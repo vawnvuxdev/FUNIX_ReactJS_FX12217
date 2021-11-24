@@ -11,7 +11,7 @@ import {
 import dateFormat from "dateformat";
 import { Link } from "react-router-dom";
 
-function RenderStaffDetail({ staff }) {
+function RenderStaffDetail({ staff, departments }) {
   return (
     <Card outline color="info" className="mb-2">
       <Row className="p-2">
@@ -23,7 +23,7 @@ function RenderStaffDetail({ staff }) {
           <div>
             <p>Ngày sinh: {dateFormat(staff.doB, "dd/mm/yyyy")} </p>
             <p>Ngày vào công ty: {dateFormat(staff.startDate, "dd/mm/yyyy")}</p>
-            <p>Phòng ban: {staff.department.name}</p>
+            <p>Phòng ban: {departments.filter((department) => department.id === staff.department)}</p>
             <p>Số ngày nghỉ còn lại: {staff.annualLeave}</p>
             <p>Số ngày đã làm thêm: {staff.overTime}</p>
           </div>
@@ -44,7 +44,7 @@ const StaffDetail = (props) => {
           <BreadcrumbItem active>{props.staff.name}</BreadcrumbItem>
         </Breadcrumb>
       </Row>
-      <RenderStaffDetail staff={props.staff} />
+      <RenderStaffDetail staff={props.staff} departments={props.departments} />
     </div>
   );
 };

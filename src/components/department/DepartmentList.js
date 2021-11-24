@@ -14,15 +14,18 @@ import { Link } from "react-router-dom";
 function RenderDepartment({ department }) {
   return (
     <Card className="mb-2 p-1" outline color="info" key={department.id}>
-      <CardBody>
-        <CardTitle>Phòng: {department.name}</CardTitle>
-        <CardText>Số lượng nhân viên: {department.numberOfStaff}</CardText>
-      </CardBody>
+      <Link to={`/departments/${department.id}`} >
+        <CardBody>
+          <CardTitle>Phòng: {department.name}</CardTitle>
+          <CardText>Số lượng nhân viên: {department.numberOfStaff}</CardText>
+        </CardBody>
+      </Link>
     </Card>
   );
 }
 
 const Department = (props) => {
+
   return (
     <div className="container">
       <Row>

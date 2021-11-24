@@ -33,7 +33,7 @@ class Header extends Component {
             <NavbarToggler onClick={this.toggleNav} />
             <NavbarBrand className="mr-2" href="/">
               <img
-                src="assets/images/logo.png"
+                src="asset/images/logo.png"
                 height="40"
                 width="45"
                 alt="React Logo"
