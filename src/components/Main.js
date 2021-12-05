@@ -10,11 +10,13 @@ import DepartmentDetail from "./department/DepartmentDetail";
 
 import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 import {
   fetchStaffs,
   fetchDepartments,
   postStaff,
-  deleteStaff,
+  fetchDeleteStaff,
+  fetchEditStaff,
 } from "../redux/ActionCreators";
 
 class Main extends Component {
@@ -71,6 +73,7 @@ class Main extends Component {
           departments={this.props.departments.departments}
           postStaff={this.props.postStaff}
           deleteStaff={this.props.deleteStaff}
+          editStaff={this.props.editStaff}
         />
       );
     };
@@ -81,30 +84,40 @@ class Main extends Component {
       return (
         <div>
           <Header />
-          <Switch>
-            <Route exact path="/" component={HomePage} />
-            <Route exact path="/staffs" component={Staffs} />
-            <Route path="/staffs/:staffId" component={StaffDetailById} />
-            <Route
-              exact
-              path="/departments"
-              component={() => (
-                <DepartmentList
-                  departments={this.props.departments.departments}
+          <TransitionGroup>
+            <CSSTransition
+              key={this.props.location.key}
+              classNames="page"
+              timeout={300}
+            >
+              <Switch location={this.props.location}>
+                <Route exact path="/" component={HomePage} />
+                <Route exact path="/staffs" component={Staffs} />
+                <Route path="/staffs/:staffId" component={StaffDetailById} />
+                <Route
+                  exact
+                  path="/departments"
+                  component={() => (
+                    <DepartmentList
+                      departments={this.props.departments.departments}
+                    />
+                  )}
                 />
-              )}
-            />
-            <Route
-              path="/departments/:departmentId"
-              component={DepartmentById}
-            />
-            <Route
-              exact
-              path="/salaries"
-              component={() => <SalaryList staffs={this.props.staffs.staffs} />}
-            />
-            <Redirect to="/" />
-          </Switch>
+                <Route
+                  path="/departments/:departmentId"
+                  component={DepartmentById}
+                />
+                <Route
+                  exact
+                  path="/salaries"
+                  component={() => (
+                    <SalaryList staffs={this.props.staffs.staffs} />
+                  )}
+                />
+                <Redirect to="/" />
+              </Switch>
+            </CSSTransition>
+          </TransitionGroup>
           <Footer />
         </div>
       );
@@ -120,33 +133,21 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  postStaff: (
-    name,
-    doB,
-    salaryScale,
-    startDate,
-    departmentId,
-    annualLeave,
-    overTime
-  ) =>
-    dispatch(
-      postStaff(
-        name,
-        doB,
-        salaryScale,
-        startDate,
-        departmentId,
-        annualLeave,
-        overTime
-      )
-    ),
+  postStaff: (newStaff) => {
+    dispatch(postStaff(newStaff));
+  },
   fetchStaffs: () => {
     dispatch(fetchStaffs());
   },
   fetchDepartments: () => {
     dispatch(fetchDepartments());
   },
-  deleteStaff: (staffId) => dispatch(deleteStaff(staffId)),
+  deleteStaff: (staffId) => {
+    dispatch(fetchDeleteStaff(staffId));
+  },
+  editStaff: (editStaff) => {
+    dispatch(fetchEditStaff(editStaff));
+  },
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

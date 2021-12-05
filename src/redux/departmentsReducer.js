@@ -5,7 +5,7 @@ export const Departments = (
   action
 ) => {
   switch (action.type) {
-    case ActionTypes.ADD_DEPARTMENTS:
+    case ActionTypes.LOAD_DEPARTMENTS:
       return {
         ...state,
         errMess: null,

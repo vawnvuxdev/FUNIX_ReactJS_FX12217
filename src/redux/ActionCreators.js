@@ -1,14 +1,9 @@
 import * as ActionTypes from "./ActionTypes";
 import { baseUrl } from "../shared/baseUrl";
 
-export const addStaffs = (staffs) => ({
-  type: ActionTypes.ADD_STAFFS,
+export const loadStaffs = (staffs) => ({
+  type: ActionTypes.LOAD_STAFFS,
   payload: staffs,
-});
-
-export const addStaff = (staff) => ({
-  type: ActionTypes.ADD_STAFF,
-  payload: staff,
 });
 
 export const staffsFailed = (errMess) => ({
@@ -18,43 +13,15 @@ export const staffsFailed = (errMess) => ({
 
 export const fetchStaffs = () => (dispatch) => {
   return fetch(baseUrl + "staffs")
-    .then(
-      (response) => {
-        if (response.ok) {
-          return response;
-        } else {
-          var error = new Error(
-            "Error " + response.status + ": " + response.statusText
-          );
-          error.response = response;
-          throw error;
-        }
-      },
-      (error) => {
-        var errMess = new Error(error.message);
-        throw errMess;
-      }
-    )
     .then((response) => response.json())
-    .then((staffs) => dispatch(addStaffs(staffs)))
+    .then((reposne) => dispatch(loadStaffs(reposne)))
     .catch((error) => dispatch(staffsFailed(error.message)));
 };
 
 export const postStaff =
-  (name, doB, salaryScale, startDate, departmentId, annualLeave, overTime) =>
+  (newStaff) =>
     (dispatch) => {
-      const newStaff = {
-        name,
-        doB,
-        salaryScale,
-        startDate,
-        departmentId,
-        annualLeave,
-        overTime,
-      };
-      newStaff.salary = Math.round(
-        newStaff.salaryScale * 3000000 + newStaff.overTime * 200000
-      );
+      newStaff.salary = Math.round(newStaff.salaryScale * 3000000 + newStaff.overTime * 200000);
       newStaff.image = "/asset/images/alberto.png";
 
       return fetch(baseUrl + "staffs", {
@@ -65,27 +32,11 @@ export const postStaff =
         },
         credentials: "same-origin",
       })
-        .then(
-          (response) => {
-            if (response.ok) {
-              return response;
-            } else {
-              var error = new Error(
-                "Error " + response.status + ": " + response.statusText
-              );
-              error.response = response;
-              throw error;
-            }
-          },
-          (error) => {
-            throw error;
-          }
-        )
         .then((response) => response.json())
-        .then((response) => dispatch(addStaff(response)))
+        .then((staffs) => dispatch(loadStaffs(staffs)))
         .catch((error) => {
           console.log("post new staff", error.message);
-          alert("Your staff could not be posted\nError: " + error.message);
+          alert("Error: " + error.message);
         });
     };
 
@@ -99,76 +50,33 @@ export const fetchDeleteStaff = (id) => (dispatch) => {
     credentials: "same-origin",
   })
     .then((response) => response.json())
-    .then((staffs) => dispatch(addStaffs(staffs)))
+    .then((reposne) => dispatch(loadStaffs(reposne)))
     .catch((error) => { console.log(error.message) });
 };
 
-export const deleteStaff = (staffId) => ({
-  type: ActionTypes.DELETE_STAFF,
-  payload: staffId,
-});
+export const fetchEditStaff = (editStaff) => (dispatch) => {
+  editStaff.salary = Math.round(
+    editStaff.salaryScale * 3000000 + editStaff.overTime * 200000
+  );
 
-export const editStaff =
-  (
-    id,
-    name,
-    doB,
-    salaryScale,
-    startDate,
-    departmentId,
-    annualLeave,
-    overTime
-  ) =>
-    (dispatch) => {
-      const editStaff = {
-        id,
-        name,
-        doB,
-        salaryScale,
-        startDate,
-        departmentId,
-        annualLeave,
-        overTime,
-      };
-      editStaff.salary = Math.round(
-        editStaff.salaryScale * 3000000 + editStaff.overTime * 200000
-      );
-      editStaff.image = "/asset/images/alberto.png";
+  return fetch(baseUrl + "staffs", {
+    method: "PATCH",
+    body: JSON.stringify(editStaff),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "same-origin",
+  })
+    .then((response) => response.json())
+    .then((response) => dispatch(loadStaffs(response)))
+    .catch((error) => {
+      console.log("Edit staff", error.message);
+      alert("Error: " + error.message);
+    });
+};
 
-      return fetch(baseUrl + "staffs", {
-        method: "PATCH",
-        body: JSON.stringify(editStaff),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "same-origin",
-      })
-        .then(
-          (response) => {
-            if (response.ok) {
-              return response;
-            } else {
-              var error = new Error(
-                "Error " + response.status + ": " + response.statusText
-              );
-              error.response = response;
-              throw error;
-            }
-          },
-          (error) => {
-            throw error;
-          }
-        )
-        .then((response) => response.json())
-        .then((response) => dispatch(addStaff(response)))
-        .catch((error) => {
-          console.log("post new staff", error.message);
-          alert("Your staff could not be posted\nError: " + error.message);
-        });
-    };
-
-export const addDepartments = (departments) => ({
-  type: ActionTypes.ADD_DEPARTMENTS,
+export const loadDepartments = (departments) => ({
+  type: ActionTypes.LOAD_DEPARTMENTS,
   payload: departments,
 });
 
@@ -197,6 +105,6 @@ export const fetchDepartments = () => (dispatch) => {
       }
     )
     .then((response) => response.json())
-    .then((departments) => dispatch(addDepartments(departments)))
+    .then((reposne) => dispatch(loadDepartments(reposne)))
     .catch((error) => dispatch(departmentsFailed(error.message)));
 };

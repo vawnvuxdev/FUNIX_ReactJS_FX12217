@@ -14,7 +14,7 @@ import { Control, LocalForm, Errors } from "react-redux-form";
 const required = (val) => val && val.length;
 const minLength = (len) => (val) => val && val.length >= len;
 const isNull = (val) => !(val === "");
-const validDoB = (val) => !(new Date(val).getFullYear() > 2000);
+const validDoB = (val) => !(new Date(val).getFullYear() > 2003);
 const validStartDate = (val) => !(new Date(val).getFullYear() < 2010);
 
 const StaffFormModal = (props) => {
@@ -26,7 +26,10 @@ const StaffFormModal = (props) => {
       size="lg"
     >
       <ModalHeader toggle={props.toggle}>Thêm Nhân Viên Mớis</ModalHeader>
-      <LocalForm onSubmit={(values) => props.onSubmit(values)}>
+      <LocalForm
+        onSubmit={(formData) => props.onSubmit(formData)}
+        initialState={props.initialState}
+      >
         <ModalBody>
           <Row className="form-group">
             <Label md={3} lg={4} htmlFor="name">
@@ -59,7 +62,7 @@ const StaffFormModal = (props) => {
               Ngày sinh
             </Label>
             <Col md={9} lg={8}>
-              <Control
+              <Control.input
                 type="date"
                 className="form-control"
                 model=".doB"
@@ -75,7 +78,7 @@ const StaffFormModal = (props) => {
               model=".doB"
               show="touched"
               messages={{
-                validDoB: "Năm sinh của nhân viên không được nhỏ hơn 2000",
+                validDoB: "Năm sinh của nhân viên không được nhỏ hơn 2003",
               }}
             />
           </Row>
@@ -84,7 +87,7 @@ const StaffFormModal = (props) => {
               Ngày vào công ty
             </Label>
             <Col md={9} lg={8}>
-              <Control
+              <Control.input
                 type="date"
                 className="form-control"
                 model=".startDate"
@@ -146,7 +149,7 @@ const StaffFormModal = (props) => {
                 model=".salaryScale"
                 id="salaryScale"
                 name="salaryScale"
-                defaultValue={1}
+                defaultValue={props.initialState.salaryScale === "" ? 1 : props.initialState.salaryScale }
                 min={1}
                 step={0.1}
               />
@@ -163,7 +166,7 @@ const StaffFormModal = (props) => {
                 model=".annualLeave"
                 id="annualLeave"
                 name="annualLeave"
-                defaultValue={12}
+                defaultValue={props.initialState.annualLeave === "" ? 10 : props.initialState.annualLeave }
                 min={0}
                 max={12}
               />
@@ -180,7 +183,7 @@ const StaffFormModal = (props) => {
                 model=".overTime"
                 id="overTime"
                 name="overTime"
-                defaultValue={0}
+                defaultValue={props.initialState.overTime === "" ? 0 : props.initialState.overTime }
                 min={0}
                 step={1}
               />
@@ -190,7 +193,7 @@ const StaffFormModal = (props) => {
         <ModalFooter>
           <Row className="form-group">
             <Button color="primary" type="submit" className="mr-2">
-              Thêm
+              {props.submitType === "edit" ? "Sửa" : "Thêm mới"}
             </Button>
           </Row>
         </ModalFooter>
